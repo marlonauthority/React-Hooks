@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [tecnologias, attTecnologia] = useState(['ReactJS', 'React Native']);
+  const [tecnologias, attTecnologias] = useState(['ReactJS', 'React Native']);
   const [newTech, setNewTech] = useState('');
 
   function handleAdd() {
     // o state ainda eé imutavel, por isso deve-se copiar tudo e atualizar seu valor posteriormente a copia spread operators
-    attTecnologia([...tecnologias, newTech]);
+    attTecnologias([...tecnologias, newTech]);
     setNewTech('');
   }
+
+  // no 2º parametro se nao for passado nada, o useEffect executara uma unica vez, como se fosse o componentDidMount
+  useEffect(() => {
+    const storageTech = localStorage.getItem('tech');
+
+    if (storageTech) {
+      attTecnologias(JSON.parse(storageTech));
+    }
+  }, []);
+
+  // O 1º parãmetro é a funcao a ser executada () => {}
+  // 2º parãmetro é quando sera executada, eé um array de dependencias que fica monitoriando as variaveis
+  // Nota-se ser paracido com o componentDidUpdate
+  useEffect(() => {
+    localStorage.setItem('tech', JSON.stringify(tecnologias));
+  }, [tecnologias]);
+
   return (
     <>
       <ul>
