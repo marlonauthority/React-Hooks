@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [tecnologias, attTecnologias] = useState(['ReactJS', 'React Native']);
   const [newTech, setNewTech] = useState('');
 
-  function handleAdd() {
-    // o state ainda eé imutavel, por isso deve-se copiar tudo e atualizar seu valor posteriormente a copia spread operators
+  const handleAdd = useCallback(() => {
     attTecnologias([...tecnologias, newTech]);
     setNewTech('');
-  }
+  }, [newTech, tecnologias]);
 
   // no 2º parametro se nao for passado nada, o useEffect executara uma unica vez, como se fosse o componentDidMount
   useEffect(() => {
