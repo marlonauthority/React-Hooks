@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 function App() {
   const [tecnologias, attTecnologias] = useState(['ReactJS', 'React Native']);
@@ -26,6 +26,9 @@ function App() {
     localStorage.setItem('tech', JSON.stringify(tecnologias));
   }, [tecnologias]);
 
+  // O useMemo fica monitorando uma varialvel, e com isso pode realizar um calculo por exemplo, sem que seja necessario ficar fazendo dentro do render
+  const techSize = useMemo(() => tecnologias.length, [tecnologias]);
+
   return (
     <>
       <ul>
@@ -33,6 +36,8 @@ function App() {
           <li key={tecnologia}>{tecnologia}</li>
         ))}
       </ul>
+      <strong>Você tem {techSize} tecnologias</strong>
+      <br />
       <input value={newTech} onChange={e => setNewTech(e.target.value)} />
       <button type="button" onClick={handleAdd}>
         Adcionar
